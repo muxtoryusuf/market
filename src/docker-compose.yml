@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  db_market:
+    image: postgres:12.2
+    environment:
+        POSTGRES_DB: db_market
+        POSTGRES_USER: aristoteluser
+        POSTGRES_PASSWORD: aristotelpass
+  web_market:
+    build: .
+    command: python manage.py runserver 0.0.0.0:3333
+    volumes:
+      - .:/code
+    ports:
+      - "3333:3333"
+    depends_on:
+      - db_market
+    env_file:
+      - ./.env.dev
+
